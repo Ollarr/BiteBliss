@@ -1,9 +1,25 @@
 import 'package:bitebliss/data/data.dart';
+import 'package:bitebliss/screens/meals.dart';
 import 'package:bitebliss/widgets/category_grid_item.dart';
+import 'package:bitebliss/models/category.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesSCreen extends StatelessWidget {
   const CategoriesSCreen({super.key});
+
+  void _selectCategory(BuildContext context, Category category) {
+    final filteredMeals = dummyMeals
+        .where((meal) => meal.categories.contains(category.id))
+        .toList();
+
+    // Navigator.push(context, route);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) =>
+            MealScreen(title: category.title, meals: filteredMeals),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +39,12 @@ class CategoriesSCreen extends StatelessWidget {
 
         children: [
           for (final category in availableCategories)
-            CategoryGridItem(category: category)
+            CategoryGridItem(
+              category: category,
+              onSelectCategory: () {
+                _selectCategory(context, category);
+              },
+            )
         ],
       ),
     );
