@@ -1,6 +1,7 @@
 import 'package:bitebliss/screens/categories.dart';
 import 'package:bitebliss/screens/meals.dart';
 import 'package:bitebliss/models/meal.dart';
+import 'package:bitebliss/widgets/main_drawer.dart';
 
 import 'package:flutter/material.dart';
 
@@ -64,6 +65,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
+      drawer: const MainDrawer(),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
           onTap: _selectPage,
