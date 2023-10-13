@@ -1,4 +1,5 @@
 import 'package:bitebliss/models/meal.dart';
+import 'package:bitebliss/screens/meal_details.dart';
 import 'package:bitebliss/widgets/meal_item.dart';
 import 'package:flutter/material.dart';
 
@@ -8,12 +9,18 @@ class MealScreen extends StatelessWidget {
   final String title;
   final List<Meal> meals;
 
+  void selectMeal(BuildContext context, Meal meal) {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (ctx) => MealDetailsScreen(meal: meal)));
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget content = ListView.builder(
         itemCount: meals.length,
         itemBuilder: (ctx, index) => MealItem(
               meal: meals[index],
+              onSelectMeal: (meal) => selectMeal(context, meal),
             ));
     if (meals.isEmpty) {
       content = const Center(
