@@ -1,4 +1,5 @@
-import 'package:bitebliss/screens/categories.dart';
+// import 'package:bitebliss/screens/categories.dart';
+import 'package:bitebliss/screens/tabs.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: theme, home: const CategoriesSCreen());
+    return MaterialApp(theme: theme, home: const TabsScreen());
   }
 }
