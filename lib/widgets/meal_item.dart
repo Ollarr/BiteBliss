@@ -1,3 +1,4 @@
+import 'package:bitebliss/widgets/meal_item_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:bitebliss/models/meal.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -6,6 +7,16 @@ class MealItem extends StatelessWidget {
   const MealItem({super.key, required this.meal});
 
   final Meal meal;
+  String get capitalizeComplexityText {
+    return meal.complexity.name[0].toUpperCase() +
+        meal.complexity.name.substring(1);
+  }
+
+  String get capitalizeAffordability {
+    return meal.affordability.name[0].toUpperCase() +
+        meal.affordability.name.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -46,7 +57,24 @@ class MealItem extends StatelessWidget {
                         height: 16,
                       ),
                       Row(
-                        children: [],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MealItemDetail(
+                              icon: Icons.schedule,
+                              label: "${meal.duration} min"),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          MealItemDetail(
+                              icon: Icons.work,
+                              label: capitalizeComplexityText),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          MealItemDetail(
+                              icon: Icons.attach_money,
+                              label: capitalizeAffordability)
+                        ],
                       )
                     ],
                   )),
