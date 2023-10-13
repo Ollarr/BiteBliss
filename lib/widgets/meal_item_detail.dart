@@ -10,7 +10,7 @@ class MealItemDetail extends StatelessWidget {
     return Row(children: [
       Icon(icon, size: 17, color: Colors.white),
       const SizedBox(
-        width: 6,
+        width: 8,
       ),
       Text(
         label,
