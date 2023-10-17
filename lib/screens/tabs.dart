@@ -1,9 +1,19 @@
+import 'package:bitebliss/data/data.dart';
 import 'package:bitebliss/screens/categories.dart';
+import 'package:bitebliss/screens/filters.dart';
 import 'package:bitebliss/screens/meals.dart';
 import 'package:bitebliss/models/meal.dart';
 import 'package:bitebliss/widgets/main_drawer.dart';
 
 import 'package:flutter/material.dart';
+
+// N/B: This a way of naming global variables i.e adding k before a variable identifier.
+const kInitialFilters = {
+  Filters.glutenFree: false,
+  Filters.lactoseFree: false,
+  Filters.vegetarian: false,
+  Filters.vegan: false
+};
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -17,6 +27,8 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
+
+  Map<Filters, bool> _selectedFilters = kInitialFilters;
 
   void _toggleFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
@@ -46,10 +58,46 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+  void _setScreen(String identifier) async {
+    Navigator.of(context).pop();
+
+    if (identifier == "filters") {
+      final result = await Navigator.of(context).push<Map<Filters, bool>>(
+        MaterialPageRoute(builder: (ctx) => const FiltersScreen()),
+      );
+      setState(() {
+        _selectedFilters = result ?? kInitialFilters;
+      });
+    }
+    // else {
+    //   Navigator.of(context).pop();
+    // }
+  }
+
   @override
   Widget build(BuildContext context) {
+// final availableMeals = dummyMeals.where((meal) => {
+//   if (_selectedFilters[Filters.glutenFree]! && !meal.isGlutenFree)
+// });
+    final availableMeals = dummyMeals.where((meal) {
+      if (_selectedFilters[Filters.glutenFree]! && !meal.isGlutenFree) {
+        return false;
+      }
+      if (_selectedFilters[Filters.lactoseFree]! && !meal.isLactoseFree) {
+        return false;
+      }
+      if (_selectedFilters[Filters.vegetarian]! && !meal.isVegetarian) {
+        return false;
+      }
+      if (_selectedFilters[Filters.vegan]! && !meal.isVegan) {
+        return false;
+      }
+      return true;
+    }).toList();
+
     Widget activePage = CategoriesSCreen(
       onToggleFavorite: _toggleFavoriteStatus,
+      availableMeals: availableMeals,
     );
     var activePageTitle = "Categories";
 
@@ -65,7 +113,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(activePageTitle),
       ),
-      drawer: const MainDrawer(),
+      drawer: MainDrawer(onSelectScreen: _setScreen),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
           onTap: _selectPage,
