@@ -7,15 +7,25 @@ import 'package:bitebliss/models/meal.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesSCreen extends StatelessWidget {
-  const CategoriesSCreen({super.key, required this.onToggleFavorite});
+  const CategoriesSCreen(
+      {super.key,
+      required this.onToggleFavorite,
+      required this.availableMeals});
 
+  final List<Meal> availableMeals;
   final void Function(Meal meal) onToggleFavorite;
 
   void _selectCategory(BuildContext context, Category category) {
-    final filteredMeals = dummyMeals
+    // N/B: This is used to filter
+    // final filteredMeals = dummyMeals
+    //     .where((meal) => meal.categories.contains(category.id))
+    //     .toList();
+
+    // N/B: This is used to filter available meals
+
+    final filteredMeals = availableMeals
         .where((meal) => meal.categories.contains(category.id))
         .toList();
-
     // Navigator.push(context, route);
     Navigator.of(context).push(
       MaterialPageRoute(

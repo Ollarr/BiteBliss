@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 
 // N/B: This a way of naming global variables i.e adding k before a variable identifier.
 const kInitialFilters = {
-  Filters.glutenFree: false,
-  Filters.lactoseFree: false,
-  Filters.vegetarian: false,
-  Filters.vegan: false
+  Filter.glutenFree: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false
 };
 
 class TabsScreen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
 
-  Map<Filters, bool> _selectedFilters = kInitialFilters;
+  Map<Filter, bool> _selectedFilters = kInitialFilters;
 
   void _toggleFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
@@ -62,8 +62,11 @@ class _TabsScreenState extends State<TabsScreen> {
     Navigator.of(context).pop();
 
     if (identifier == "filters") {
-      final result = await Navigator.of(context).push<Map<Filters, bool>>(
-        MaterialPageRoute(builder: (ctx) => const FiltersScreen()),
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
+        MaterialPageRoute(
+            builder: (ctx) => FiltersScreen(
+                  currentFilters: _selectedFilters,
+                )),
       );
       setState(() {
         _selectedFilters = result ?? kInitialFilters;
@@ -80,16 +83,16 @@ class _TabsScreenState extends State<TabsScreen> {
 //   if (_selectedFilters[Filters.glutenFree]! && !meal.isGlutenFree)
 // });
     final availableMeals = dummyMeals.where((meal) {
-      if (_selectedFilters[Filters.glutenFree]! && !meal.isGlutenFree) {
+      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
         return false;
       }
-      if (_selectedFilters[Filters.lactoseFree]! && !meal.isLactoseFree) {
+      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
         return false;
       }
-      if (_selectedFilters[Filters.vegetarian]! && !meal.isVegetarian) {
+      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
         return false;
       }
-      if (_selectedFilters[Filters.vegan]! && !meal.isVegan) {
+      if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
         return false;
       }
       return true;
