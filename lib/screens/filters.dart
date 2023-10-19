@@ -2,22 +2,37 @@
 // import 'package:bitebliss/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 
-class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+enum Filter { glutenFree, lactoseFree, vegetarian, vegan }
 
+class FiltersScreen extends StatefulWidget {
+  const FiltersScreen({super.key, required this.currentFilters});
+
+  final Map<Filter, bool> currentFilters;
   @override
   State<FiltersScreen> createState() {
     return _FiltersScreenState();
   }
 }
 
-enum Filters { glutenFree, lactoseFree, vegetarian, vegan }
-
 class _FiltersScreenState extends State<FiltersScreen> {
   var _isGlutenFreeSet = false;
   var _isLactoseFreeSet = false;
   var _isVegetarianFreeSet = false;
   var _isVeganFreeSet = false;
+
+  @override
+// This is done to override the filter variables as the state changes
+//when users switch the filters on or off and save the current filter state
+//This is not implementable at initialization point, it can only be used inside a method
+//like we are doing in the initState method.
+
+  void initState() {
+    super.initState();
+    _isGlutenFreeSet = widget.currentFilters[Filter.glutenFree]!;
+    _isLactoseFreeSet = widget.currentFilters[Filter.lactoseFree]!;
+    _isVegetarianFreeSet = widget.currentFilters[Filter.vegetarian]!;
+    _isVeganFreeSet = widget.currentFilters[Filter.vegan]!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +53,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
         body: WillPopScope(
           onWillPop: () async {
             Navigator.of(context).pop({
-              Filters.glutenFree: _isGlutenFreeSet,
-              Filters.lactoseFree: _isLactoseFreeSet,
-              Filters.vegetarian: _isVegetarianFreeSet,
-              Filters.vegan: _isVeganFreeSet,
+              Filter.glutenFree: _isGlutenFreeSet,
+              Filter.lactoseFree: _isLactoseFreeSet,
+              Filter.vegetarian: _isVegetarianFreeSet,
+              Filter.vegan: _isVeganFreeSet,
             });
             // N/B: We are returning false here to in the end confirm whether we want to navigate back or not and since we navigating back manually in our case here, hence we are returning false so that we won't in the end be popping twice. In a situation where we are not manually navigating but doing something else like saving data to some database or something, it would be make sense to return true then
             return false;
