@@ -1,4 +1,4 @@
-import 'package:bitebliss/data/data.dart';
+import 'package:bitebliss/data/meals.dart';
 import 'package:bitebliss/screens/meals.dart';
 import 'package:bitebliss/widgets/category_grid_item.dart';
 import 'package:bitebliss/models/category.dart';
