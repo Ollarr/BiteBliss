@@ -1,6 +1,6 @@
 // import 'package:bitebliss/data/meals.dart';
 import 'package:bitebliss/providers/favourite_meal.dart';
-import 'package:bitebliss/providers/meals_provider.dart';
+// import 'package:bitebliss/providers/meals_provider.dart';
 import 'package:bitebliss/screens/categories.dart';
 import 'package:bitebliss/screens/filters.dart';
 import 'package:bitebliss/screens/meals.dart';
@@ -87,24 +87,25 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 //   if (_selectedFilters[Filters.glutenFree]! && !meal.isGlutenFree)
 // });
 
-    final meals = ref.watch(mealsProvider);
-    final activeFilters = ref.watch(filtersProvider);
+    // final meals = ref.watch(mealsProvider);
+    // final activeFilters = ref.watch(filtersProvider);
 
-    final availableMeals = meals.where((meal) {
-      if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
-        return false;
-      }
-      if (activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
-        return false;
-      }
-      if (activeFilters[Filter.vegetarian]! && !meal.isVegetarian) {
-        return false;
-      }
-      if (activeFilters[Filter.vegan]! && !meal.isVegan) {
-        return false;
-      }
-      return true;
-    }).toList();
+    // final availableMeals = meals.where((meal) {
+    //   if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
+    //     return false;
+    //   }
+    //   if (activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+    //     return false;
+    //   }
+    //   if (activeFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+    //     return false;
+    //   }
+    //   if (activeFilters[Filter.vegan]! && !meal.isVegan) {
+    //     return false;
+    //   }
+    //   return true;
+    // }).toList();
+    final availableMeals = ref.watch(filteredMealsProvider);
 
     Widget activePage = CategoriesSCreen(
       // onToggleFavorite: _toggleFavoriteStatus,
