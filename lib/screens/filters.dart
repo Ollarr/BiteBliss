@@ -1,20 +1,25 @@
 // import 'package:bitebliss/screens/tabs.dart';
 // import 'package:bitebliss/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:bitebliss/providers/filters_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum Filter { glutenFree, lactoseFree, vegetarian, vegan }
+// enum Filter { glutenFree, lactoseFree, vegetarian, vegan }
 
-class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key, required this.currentFilters});
+class FiltersScreen extends ConsumerStatefulWidget {
+  const FiltersScreen({
+    super.key,
+    // required this.currentFilters
+  });
 
-  final Map<Filter, bool> currentFilters;
+  // final Map<Filter, bool> currentFilters;
   @override
-  State<FiltersScreen> createState() {
+  ConsumerState<FiltersScreen> createState() {
     return _FiltersScreenState();
   }
 }
 
-class _FiltersScreenState extends State<FiltersScreen> {
+class _FiltersScreenState extends ConsumerState<FiltersScreen> {
   var _isGlutenFreeSet = false;
   var _isLactoseFreeSet = false;
   var _isVegetarianFreeSet = false;
@@ -28,10 +33,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   void initState() {
     super.initState();
-    _isGlutenFreeSet = widget.currentFilters[Filter.glutenFree]!;
-    _isLactoseFreeSet = widget.currentFilters[Filter.lactoseFree]!;
-    _isVegetarianFreeSet = widget.currentFilters[Filter.vegetarian]!;
-    _isVeganFreeSet = widget.currentFilters[Filter.vegan]!;
+    final currentActiveFilter = ref.read(filtersProvider);
+
+    _isGlutenFreeSet = currentActiveFilter[Filter.glutenFree]!;
+    _isLactoseFreeSet = currentActiveFilter[Filter.lactoseFree]!;
+    _isVegetarianFreeSet = currentActiveFilter[Filter.vegetarian]!;
+    _isVeganFreeSet = currentActiveFilter[Filter.vegan]!;
   }
 
   @override
@@ -52,14 +59,22 @@ class _FiltersScreenState extends State<FiltersScreen> {
         // ),
         body: WillPopScope(
           onWillPop: () async {
-            Navigator.of(context).pop({
+            ref.read(filtersProvider.notifier).setFilters({
               Filter.glutenFree: _isGlutenFreeSet,
               Filter.lactoseFree: _isLactoseFreeSet,
               Filter.vegetarian: _isVegetarianFreeSet,
               Filter.vegan: _isVeganFreeSet,
             });
+            // Navigator.of(context).pop({
+            //   Filter.glutenFree: _isGlutenFreeSet,
+            //   Filter.lactoseFree: _isLactoseFreeSet,
+            //   Filter.vegetarian: _isVegetarianFreeSet,
+            //   Filter.vegan: _isVeganFreeSet,
+            // });
+
             // N/B: We are returning false here to in the end confirm whether we want to navigate back or not and since we navigating back manually in our case here, hence we are returning false so that we won't in the end be popping twice. In a situation where we are not manually navigating but doing something else like saving data to some database or something, it would be make sense to return true then
-            return false;
+            // return false;
+            return true;
           },
           child: Column(children: [
             SwitchListTile(
