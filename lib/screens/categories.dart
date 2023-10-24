@@ -36,7 +36,7 @@ class _CategoriesSCreenState extends State<CategoriesSCreen>
         vsync: this,
         duration: const Duration(milliseconds: 300),
         lowerBound: 0,
-        upperBound: 2);
+        upperBound: 1);
     _animationController.forward();
   }
 
@@ -73,31 +73,70 @@ class _CategoriesSCreenState extends State<CategoriesSCreen>
 
   @override
   Widget build(BuildContext context) {
+    // return AnimatedBuilder(
+    //   animation: _animationController,
+    //   builder: (context, child) => Padding(
+    //       padding: EdgeInsets.only(top: 100 - _animationController.value * 100),
+    //       child: child),
+    // child:
+
     return AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) => Padding(
-            padding:
-                EdgeInsets.only(top: 100 - _animationController.value * 100),
-            child: child),
-        child: GridView(
-          padding: const EdgeInsets.all(24),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      animation: _animationController,
+      builder: (context, child) {
+        return Padding(
+          padding:
+              EdgeInsets.only(top: 100 - (_animationController.value * 100)),
+          child: GridView(
+            padding: const EdgeInsets.all(24),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 3 / 2,
               crossAxisSpacing: 20,
-              mainAxisSpacing: 20),
-          // N/B: The CategoryGridItems can be rendered using either map or for in loop
-          // children: availableCategories.map((category) => CategoryGridItem(category: category)).toList(),
+              mainAxisSpacing: 20,
+            ),
+            children: [
+              // N/B: The CategoryGridItems can be rendered using either map or for in loop
+              // children: availableCategories.map((category) => CategoryGridItem(category: category)).toList(),
 
-          children: [
-            for (final category in availableCategories)
-              CategoryGridItem(
-                category: category,
-                onSelectCategory: () {
-                  _selectCategory(context, category);
-                },
-              )
-          ],
-        ));
+              for (final category in availableCategories)
+                CategoryGridItem(
+                  category: category,
+                  onSelectCategory: () {
+                    _selectCategory(context, category);
+                  },
+                ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
+
+
+
+    
+
+//     return GridView(
+//       padding: const EdgeInsets.all(24),
+//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//           crossAxisCount: 2,
+//           childAspectRatio: 3 / 2,
+//           crossAxisSpacing: 20,
+//           mainAxisSpacing: 20),
+//       // N/B: The CategoryGridItems can be rendered using either map or for in loop
+//       // children: availableCategories.map((category) => CategoryGridItem(category: category)).toList(),
+
+//       children: [
+//         for (final category in availableCategories)
+//           CategoryGridItem(
+//             category: category,
+//             onSelectCategory: () {
+//               _selectCategory(context, category);
+//             },
+//           )
+//       ],
+//     );
+//     // );
+//   }
+// }
