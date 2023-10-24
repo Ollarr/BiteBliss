@@ -75,11 +75,10 @@ class _CategoriesSCreenState extends State<CategoriesSCreen>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
         animation: _animationController,
-        builder: (context, child) => (Padding(
-              padding:
-                  EdgeInsets.only(top: 100 - _animationController.value * 100),
-              child: child,
-            )),
+        builder: (context, child) => Padding(
+            padding:
+                EdgeInsets.only(top: 100 - _animationController.value * 100),
+            child: child),
         child: GridView(
           padding: const EdgeInsets.all(24),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
